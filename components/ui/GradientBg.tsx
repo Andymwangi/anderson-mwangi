@@ -1,6 +1,6 @@
 "use client";
+import { useEffect, useState, useRef } from "react";
 import { cn } from "@/lib/utils";
-import { useEffect, useRef, useState } from "react";
 
 export const BackgroundGradientAnimation = ({
   gradientBackgroundStart = "rgb(108, 0, 162)",
@@ -33,17 +33,27 @@ export const BackgroundGradientAnimation = ({
   interactive?: boolean;
   containerClassName?: string;
 }) => {
+  const [isClient, setIsClient] = useState(false); // State to track if we're on the client side
   const interactiveRef = useRef<HTMLDivElement>(null);
-
   const [curX, setCurX] = useState(0);
   const [curY, setCurY] = useState(0);
   const [tgX, setTgX] = useState(0);
   const [tgY, setTgY] = useState(0);
-
   const [isSafari, setIsSafari] = useState(false);
 
+  // Effect to mark that we're on the client side
   useEffect(() => {
+    setIsClient(true);
+
     if (typeof window !== "undefined") {
+      // Check if Safari
+      setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
+    }
+  }, []);
+
+  // Only proceed with animations after component mounts (client-side)
+  useEffect(() => {
+    if (isClient) {
       document.body.style.setProperty("--gradient-background-start", gradientBackgroundStart);
       document.body.style.setProperty("--gradient-background-end", gradientBackgroundEnd);
       document.body.style.setProperty("--first-color", firstColor);
@@ -54,11 +64,8 @@ export const BackgroundGradientAnimation = ({
       document.body.style.setProperty("--pointer-color", pointerColor);
       document.body.style.setProperty("--size", size);
       document.body.style.setProperty("--blending-value", blendingValue);
-
-      // Check if the browser is Safari
-      setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
     }
-  }, [gradientBackgroundStart, gradientBackgroundEnd, firstColor, secondColor, thirdColor, fourthColor, fifthColor, pointerColor, size, blendingValue]);
+  }, [gradientBackgroundStart, gradientBackgroundEnd, firstColor, secondColor, thirdColor, fourthColor, fifthColor, pointerColor, size, blendingValue, isClient]);
 
   useEffect(() => {
     function move() {
@@ -80,6 +87,10 @@ export const BackgroundGradientAnimation = ({
       setTgY(event.clientY - rect.top);
     }
   };
+
+  if (!isClient) {
+    return null; // Prevent rendering on the server-side
+  }
 
   return (
     <div
