@@ -83,7 +83,7 @@ export const navItems = [
         title: "BookWise - University Library Management System",
         des: "BookWise is a university library management web app that allows users to borrow books and read descriptions and summaries of a vast collection of books.",
         img: "/bookwise.PNG",
-        iconLists: ["/next.svg", "/postgres.svg", "/redis.svg", "/shadcnui.svg", "tailwindcss.svg"],
+        iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/re.svg"],
         link: "https://bookwise-libraryapp.vercel.app/",
       },
       {
@@ -91,7 +91,7 @@ export const navItems = [
         title: "StoreIt - Digital File Management System",
         des: "A digital file management system that leverages OCR for document uploading and secure storage.",
         img: "/p3.svg",
-        iconLists: ["/next.svg", "/appwrite.svg", "/redis.svg", "tailwindcss.svg"],
+        iconLists: ["/next.svg", "/ts.svg", "/re.svg", "tail.svg"],
         link: "/ui.storeIt.com",
       },
       {
@@ -99,7 +99,7 @@ export const navItems = [
         title: "Minty - Banking Web Application",
         des: "A secure banking web application that facilitates seamless transactions and user authentication.",
         img: "/Minty.PNG",
-        iconLists: ["/next.svg", "/appwrite.svg", "tailwindcss.svg", "redis.svg"],
+        iconLists: ["/next.svg", "/ts.svg", "/tail.svg", "/fm.svg"],
         link: "https://minty-bank-app.vercel.app/",
       }
     ];
@@ -160,15 +160,21 @@ export const navItems = [
   export const socialMedia = [
     {
       id: 1,
-      img: "/git.svg",
+      name: "Twitter",
+      img: "/twit.svg",
+      url: "https://x.com/andymwangii", // Replace with actual URL
     },
     {
       id: 2,
-      img: "/twit.svg",
+      name: "LinkedIn",
+      img: "/link.svg",
+      url: "https://www.linkedin.com/in/anderson-mwangi/", // Replace with actual URL
     },
     {
       id: 3,
-      img: "/link.svg",
+      name: "GitHub",
+      img: "/git.svg",
+      url: "https://github.com/Andymwangi", // Replace with actual URL
     },
   ];
   

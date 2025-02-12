@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import {
   motion,
   useAnimationFrame,
@@ -7,9 +7,9 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { useRef } from "react";
 import { cn } from "@/lib/utils";
 
+// Button component
 export function Button({
   borderRadius = "1.75rem",
   children,
@@ -32,7 +32,7 @@ export function Button({
   return (
     <Component
       className={cn(
-        // remove h-16 w-40, add  md:col-span-2
+        // removed h-16 w-40, added  md:col-span-2
         "bg-transparent relative text-xl p-[1px] overflow-hidden md:col-span-2 md:row-span-1",
         containerClassName
       )}
@@ -42,7 +42,7 @@ export function Button({
       {...otherProps}
     >
       <div
-        className="absolute inset-0 rounde-[1.75rem]"
+        className="absolute inset-0 rounded-[1.75rem]"
         style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
       >
         <MovingBorder duration={duration} rx="30%" ry="30%">
@@ -70,6 +70,7 @@ export function Button({
   );
 }
 
+// MovingBorder component
 export const MovingBorder = ({
   children,
   duration = 2000,
@@ -83,9 +84,10 @@ export const MovingBorder = ({
   ry?: string;
   [key: string]: any;
 }) => {
-  const pathRef = useRef<any>(0);
-  const progress = useMotionValue<number>(0);
+  const pathRef = useRef<SVGPathElement | null>(null); // Properly typing pathRef
+  const progress = useMotionValue(0);
 
+  // Animation frame to calculate the path progress
   useAnimationFrame((time) => {
     const length = pathRef.current?.getTotalLength();
     if (length) {
@@ -94,19 +96,22 @@ export const MovingBorder = ({
     }
   });
 
+  // Transform X and Y coordinates based on progress along the path
   const x = useTransform(
     progress,
-    (val) => pathRef.current?.getPointAtLength(val).x
+    (val) => pathRef.current?.getPointAtLength(val).x || 0
   );
   const y = useTransform(
     progress,
-    (val) => pathRef.current?.getPointAtLength(val).y
+    (val) => pathRef.current?.getPointAtLength(val).y || 0
   );
 
+  // Creating motion transform based on X and Y values
   const transform = useMotionTemplate`translateX(${x}px) translateY(${y}px) translateX(-50%) translateY(-50%)`;
 
   return (
     <>
+      {/* SVG Path to create the border */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="none"
@@ -124,6 +129,8 @@ export const MovingBorder = ({
           ref={pathRef}
         />
       </svg>
+
+      {/* Motion div that moves along the path */}
       <motion.div
         style={{
           position: "absolute",
