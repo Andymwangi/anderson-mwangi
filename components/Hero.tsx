@@ -57,7 +57,7 @@ const Hero = () => {
           />
 
           <p className="text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-2xl">
-            Hi! I&apos;m Anderson, a Full-Stack Developer and a Cyber Security Analyst based in Nairobi<br> I hold a Bachelors degree in Information Technology from Jomo Kenyatta University of Agriculture and Technology, Kenya.</br>
+            Hi! I&apos;m Anderson, a Full-Stack Developer and a Cyber Security Analyst based in Nairobi.
           </p>
 
           <a href="#about">
