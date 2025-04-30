@@ -96,7 +96,7 @@ const Footer = () => {
         {status && <p className="mt-4 text-center text-white">{status}</p>}
 
         {/* Download Resume Button */}
-        <a href="/Anderson Mitambo Mwangi Resume.pdf" download>
+        <a href="/ANDERSON MITAMBO MWANGI RESUME.pdf" download>
           <MagicButton
             title="Download Resume"
             icon={<FaLocationArrow />}
