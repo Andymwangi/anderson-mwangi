@@ -141,7 +141,7 @@ const enhancedProjects: Project[] = [
     iconLists: ["/next.svg", "/ts.svg", "/tail.svg", "/shadcn.svg"],
     link: "https://jadamy-elite.vercel.app/",
     category: "Website",
-    client: "Jadamy Elite Academy, Nakuru",
+    client: "Jadamy Elite Academy, Ruai",
     clientLogo: "/jadamy-logo.png",
     fullDescription: "Jadamy Elite Academy's website serves as a comprehensive digital hub for the school, featuring online enrollment, fee payment through local banking integrations, and a parent communication portal.",
     challenge: "The school was losing potential students to competitors with better online presence, and staff spent excessive time on routine communications and paperwork.",
@@ -154,7 +154,7 @@ const enhancedProjects: Project[] = [
     ],
     testimonial: {
       quote: "Our website has become central to our school operations. Parents particularly appreciate the ability to monitor their children's progress and communicate with teachers without visiting the school.",
-      name: "Peter Kariuki",
+      name: "Mrs Lucy Mwaniki",
       title: "Principal, Jadamy Elite Academy"
     }
   }
