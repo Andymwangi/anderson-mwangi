@@ -6,7 +6,8 @@ import { projectCategories } from "@/data";
 import { PinContainer } from "./ui/Pin";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
-
+import Link from 'next/link';
+import router from "next/router";
 // Define types for our project data
 interface ProjectTestimonial {
   quote: string;
@@ -49,7 +50,7 @@ const enhancedProjects: Project[] = [
     impact: [
       "Reduced book processing time by 75%",
       "Increased student book borrowing by 40%",
-      "Decreased lost book incidents by 85%", 
+      "Decreased lost book incidents by 85%",
       "Enabled 24/7 book reservation from anywhere"
     ],
     testimonial: {
@@ -157,19 +158,69 @@ const enhancedProjects: Project[] = [
       name: "Mrs Lucy Mwaniki",
       title: "Principal, Jadamy Elite Academy"
     }
+  },
+  {
+    id: 6,
+    title: "Learn Hub - Online Learning Platform",
+    des: "A comprehensive online learning platform where users can discover, enroll in, and complete various courses with progress tracking and interactive content.",
+    img: "/learnhub.PNG",
+    iconLists: ["/next.svg", "/ts.svg", "/postgres.svg", "/prisma.svg", "/tail.svg"],
+    link: "https://learn-hub.vercel.app/",
+    category: "Full Stack App",
+    client: "EduTech Kenya",
+    clientLogo: "/edutech-logo.png",
+    fullDescription: "Learn Hub was developed for EduTech Kenya to create a comprehensive online learning ecosystem that democratizes access to quality education across Kenya, featuring course management, user authentication, and progress tracking.",
+    challenge: "Many Kenyans lack access to quality educational resources and professional development courses, especially in rural areas, leading to skills gaps in the growing digital economy.",
+    solution: "We built a scalable learning platform with secure user authentication, course enrollment system, progress tracking, and mobile-responsive design optimized for low-bandwidth connections.",
+    impact: [
+      "Enrolled over 2,500 students in the first 3 months",
+      "Delivered 50+ courses across technology and business skills",
+      "Achieved 78% course completion rate",
+      "Enabled learning access in 15+ counties across Kenya"
+    ],
+    testimonial: {
+      quote: "Learn Hub has revolutionized how we deliver education to underserved communities. The platform's reliability and user-friendly design have made quality education accessible to thousands of Kenyans.",
+      name: "Dr. Michael Kiprotich",
+      title: "Director, EduTech Kenya"
+    }
+  },
+  {
+    id: 8,
+    title: "Resume by Edna - Professional Portfolio",
+    des: "A sophisticated portfolio website showcasing professional resume writing, content creation, and LinkedIn optimization services with an elegant, conversion-focused design.",
+    img: "/resumeedna.PNG",
+    iconLists: ["/next.svg", "/ts.svg", "/tail.svg"],
+    link: "https://resume-by-edna.vercel.app/",
+    category: "Website",
+    client: "Edna Wanjiku",
+    clientLogo: "/edna-logo.png",
+    fullDescription: "Resume by Edna is a professional portfolio website that showcases Edna's expertise in resume writing, content creation, and LinkedIn optimization, designed to attract high-value clients and establish her as a thought leader in career development.",
+    challenge: "Edna needed a professional online presence to differentiate herself in the competitive resume writing market and attract premium clients willing to invest in professional career services.",
+    solution: "We created an elegant, conversion-optimized portfolio website featuring service showcases, client testimonials, before/after portfolio samples, and integrated booking system for consultations.",
+    impact: [
+      "Increased client inquiries by 150% within 2 months",
+      "Attracted 25+ premium clients paying 3x previous rates",
+      "Established strong personal brand with 95% client satisfaction",
+      "Generated 40% of new business through website referrals"
+    ],
+    testimonial: {
+      quote: "My new website has completely transformed my business. The professional design and clear presentation of my services has helped me attract the quality clients I've always wanted to work with.",
+      name: "Edna Wanjiku",
+      title: "Professional Resume Writer & Career Coach"
+    }
   }
 
 ];
 
 // Modal component - extracted for better organization
-const ProjectModal = ({ 
-  project, 
-  isOpen, 
-  onClose 
-}: { 
-  project: Project, 
-  isOpen: boolean, 
-  onClose: () => void 
+const ProjectModal = ({
+  project,
+  isOpen,
+  onClose
+}: {
+  project: Project,
+  isOpen: boolean,
+  onClose: () => void
 }) => {
   const modalVariants = {
     hidden: { opacity: 0, scale: 0.8, y: 20 },
@@ -187,7 +238,7 @@ const ProjectModal = ({
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center">
-          <motion.div 
+          <motion.div
             className="fixed inset-0 bg-black bg-opacity-90"
             variants={overlayVariants}
             initial="hidden"
@@ -195,7 +246,7 @@ const ProjectModal = ({
             exit="exit"
             onClick={onClose}
           />
-          <motion.div 
+          <motion.div
             className="relative bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-xl max-w-4xl w-[95%] max-h-[90vh] overflow-y-auto z-[1001] p-6 m-4"
             variants={modalVariants}
             initial="hidden"
@@ -203,7 +254,7 @@ const ProjectModal = ({
             exit="exit"
             onClick={(e) => e.stopPropagation()}
           >
-            <button 
+            <button
               className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors bg-black bg-opacity-50 rounded-full p-2 z-10"
               onClick={onClose}
             >
@@ -217,16 +268,16 @@ const ProjectModal = ({
                   {project.category}
                 </span>
               </div>
-              
+
               <div className="md:col-span-2 relative rounded-lg overflow-hidden h-64 mb-6 shadow-xl">
-                <img 
-                  src={project.img} 
+                <img
+                  src={project.img}
                   alt={project.title}
-                  className="w-full h-full object-cover object-top" 
+                  className="w-full h-full object-cover object-top"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="bg-black bg-opacity-50 rounded-lg p-4 border border-gray-800 shadow-lg">
                   <h3 className="text-xl font-semibold text-purple mb-2">Client</h3>
@@ -235,18 +286,18 @@ const ProjectModal = ({
                   </div>
                   <p className="text-gray-300">{project.fullDescription}</p>
                 </div>
-                
+
                 <div className="bg-black bg-opacity-50 rounded-lg p-4 border border-gray-800 shadow-lg">
                   <h3 className="text-xl font-semibold text-purple mb-2">The Challenge</h3>
                   <p className="text-gray-300">{project.challenge}</p>
                 </div>
-                
+
                 <div className="bg-black bg-opacity-50 rounded-lg p-4 border border-gray-800 shadow-lg">
                   <h3 className="text-xl font-semibold text-purple mb-2">Our Solution</h3>
                   <p className="text-gray-300">{project.solution}</p>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="bg-black bg-opacity-50 rounded-lg p-4 border border-gray-800 shadow-lg">
                   <h3 className="text-xl font-semibold text-purple mb-2">Impact</h3>
@@ -261,7 +312,7 @@ const ProjectModal = ({
                     ))}
                   </ul>
                 </div>
-                
+
                 <div className="bg-black bg-opacity-50 rounded-lg p-4 border border-gray-800 shadow-lg">
                   <h3 className="text-xl font-semibold text-purple mb-2">Technologies Used</h3>
                   <div className="flex flex-wrap gap-2">
@@ -269,13 +320,13 @@ const ProjectModal = ({
                       <div key={index} className="flex items-center bg-gray-900 rounded-full px-3 py-1">
                         <img src={icon} alt={`tech-${index}`} className="w-4 h-4 mr-2" />
                         <span className="text-sm text-gray-300">
-                          {icon.replace('/','').replace('.svg','').replace('.png','')}
+                          {icon.replace('/', '').replace('.svg', '').replace('.png', '')}
                         </span>
                       </div>
                     ))}
                   </div>
                 </div>
-                
+
                 {project.testimonial && (
                   <div className="bg-purple bg-opacity-10 rounded-lg p-4 border border-purple border-opacity-30 shadow-lg">
                     <h3 className="text-xl font-semibold text-purple mb-2">Client Testimonial</h3>
@@ -292,12 +343,12 @@ const ProjectModal = ({
                   </div>
                 )}
               </div>
-              
+
               <div className="md:col-span-2 flex justify-center mt-4">
                 <a
                   href={project.link}
                   target="_blank"
-                  rel="noopener noreferrer" 
+                  rel="noopener noreferrer"
                   className="bg-purple hover:bg-opacity-80 transition-all duration-300 text-white py-2 px-6 rounded-full flex items-center shadow-lg"
                 >
                   Visit Live Project
@@ -328,10 +379,8 @@ const RecentProjects = () => {
     (project) => activeCategory === "All" || project.category === activeCategory
   );
 
-  const openModal = (project: Project) => {
-    setSelectedProject(project);
-    setModalOpen(true);
-    document.body.style.overflow = "hidden";
+  const openProjectPage = (projectId: number) => {
+    router.push(`/project/${projectId}`);
   };
 
   const closeModal = () => {
@@ -352,11 +401,10 @@ const RecentProjects = () => {
           <button
             key={category}
             onClick={() => setActiveCategory(category)}
-            className={`px-4 py-2 rounded-full transition-all duration-300 ${
-              activeCategory === category
+            className={`px-4 py-2 rounded-full transition-all duration-300 ${activeCategory === category
                 ? "bg-purple text-white"
                 : "bg-opacity-10 bg-gray-300 hover:bg-opacity-20"
-            }`}
+              }`}
           >
             {category}
           </button>
@@ -374,7 +422,7 @@ const RecentProjects = () => {
               transition={{ duration: 0.5 }}
               className="lg:min-h-[32.5rem] h-[25rem] flex items-center justify-center sm:w-96 w-[80vw]"
             >
-              <PinContainer title={item.title} href="#"> 
+              <PinContainer title={item.title} href="#">
                 <div className="relative flex items-center justify-center sm:w-96 w-[80vw] overflow-hidden h-[20vh] lg:h-[30vh] mb-10">
                   <div
                     className="relative w-full h-full overflow-hidden lg:rounded-3xl"
@@ -424,13 +472,13 @@ const RecentProjects = () => {
                   </div>
 
                   <div className="flex">
-                    <button
-                      onClick={() => openModal(item)}
+                    <Link
+                      href={`/projects/${item.id}`}
                       className="flex justify-center items-center mr-4 bg-purple bg-opacity-10 hover:bg-opacity-20 text-purple px-3 py-1 rounded-full transition-all duration-300"
                     >
-                      <p className="text-sm">Case Study</p>
-                    </button>
-                    
+                      <p className="text-sm">Read More</p>
+                    </Link>
+
                     <a
                       href={item.link}
                       target="_blank"
@@ -452,10 +500,10 @@ const RecentProjects = () => {
 
       {/* Render the modal using createPortal */}
       {selectedProject && (
-        <ProjectModal 
-          project={selectedProject} 
-          isOpen={modalOpen} 
-          onClose={closeModal} 
+        <ProjectModal
+          project={selectedProject}
+          isOpen={modalOpen}
+          onClose={closeModal}
         />
       )}
     </div>
