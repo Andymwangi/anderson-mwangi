@@ -1,5 +1,6 @@
 
 // app/experience/[slug]/page.tsx
+// app/experience/[slug]/page.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -38,6 +39,23 @@ const validateIcons = () => {
 if (process.env.NODE_ENV === 'development') {
     validateIcons();
 }
+
+// Safe icon renderer to handle undefined icons
+const SafeIcon = ({
+    icon: Icon,
+    className = "",
+    ...props
+}: {
+    icon: React.ComponentType<any> | undefined;
+    className?: string;
+    [key: string]: any;
+}) => {
+    if (!Icon) {
+        // Fallback to a simple div if icon is undefined
+        return <div className={`w-6 h-6 ${className} bg-gray-400 rounded`} {...props} />;
+    }
+    return <Icon className={className} {...props} />;
+};
 
 // This would typically come from a database or API
 const getJobBySlug = (slug: string) => {
@@ -285,19 +303,6 @@ interface PageProps {
         slug: string;
     };
 }
-
-// Safe icon renderer to handle undefined icons
-const SafeIcon = ({ icon: Icon, className, ...props }: {
-    icon: React.ComponentType<any> | undefined;
-    className?: string;
-    [key: string]: any;
-}) => {
-    if (!Icon) {
-        // Fallback to a simple div if icon is undefined
-        return <div className={`${className} bg-gray-400 rounded`} {...props} />;
-    }
-    return <Icon className={className} {...props} />;
-};
 
 export default function JobDetailPage({ params }: PageProps) {
     const job = getJobBySlug(params.slug);
@@ -631,8 +636,6 @@ export default function JobDetailPage({ params }: PageProps) {
                     </div>
                 </motion.section>
             )}
-
-            {/* CTA Section */}
             <motion.section
                 className="py-16 bg-gradient-to-r from-purple-500/20 to-blue-500/20"
                 initial={{ opacity: 0 }}
