@@ -1,3 +1,4 @@
+
 // app/experience/[slug]/page.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -18,6 +19,25 @@ import {
     BarChart3,
     Clock
 } from 'lucide-react';
+
+// Validate all icons are properly imported
+const validateIcons = () => {
+    const icons = {
+        Calendar, MapPin, ArrowLeft, TrendingUp, Users, Code, Shield,
+        CheckCircle, Target, Zap, Award, BarChart3, Clock
+    };
+
+    Object.entries(icons).forEach(([name, icon]) => {
+        if (!icon) {
+            console.error(`Icon ${name} is undefined`);
+        }
+    });
+};
+
+// Call validation in development
+if (process.env.NODE_ENV === 'development') {
+    validateIcons();
+}
 
 // This would typically come from a database or API
 const getJobBySlug = (slug: string) => {
@@ -243,15 +263,13 @@ const getJobBySlug = (slug: string) => {
                     impact: "Streamlined financial reporting process"
                 }
             ]
-        },
-        // Add other jobs here...
+        }
     ];
 
     return jobs.find(job => job.slug === slug);
 };
 
 export async function generateStaticParams() {
-    // This would typically fetch from your database/API
     const slugs = [
         'freelance-full-stack-developer',
         'junior-full-stack-bakari-ventures',
@@ -268,6 +286,19 @@ interface PageProps {
     };
 }
 
+// Safe icon renderer to handle undefined icons
+const SafeIcon = ({ icon: Icon, className, ...props }: {
+    icon: React.ComponentType<any> | undefined;
+    className?: string;
+    [key: string]: any;
+}) => {
+    if (!Icon) {
+        // Fallback to a simple div if icon is undefined
+        return <div className={`${className} bg-gray-400 rounded`} {...props} />;
+    }
+    return <Icon className={className} {...props} />;
+};
+
 export default function JobDetailPage({ params }: PageProps) {
     const job = getJobBySlug(params.slug);
 
@@ -276,10 +307,10 @@ export default function JobDetailPage({ params }: PageProps) {
     }
 
     return (
-        <div className="min-h-screen bg-black-100 text-white">
+        <div className="min-h-screen bg-black text-white">
             {/* Hero Section */}
             <motion.div
-                className="relative bg-gradient-to-br from-slate-900 via-purple/20 to-slate-900 py-20"
+                className="relative bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 py-20"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8 }}
@@ -292,7 +323,7 @@ export default function JobDetailPage({ params }: PageProps) {
                     >
                         <Link href="/#experience">
                             <motion.button
-                                className="flex items-center gap-2 text-purple hover:text-white transition-colors mb-8"
+                                className="flex items-center gap-2 text-purple-400 hover:text-white transition-colors mb-8"
                                 whileHover={{ x: -5 }}
                             >
                                 <ArrowLeft className="w-5 h-5" />
@@ -316,7 +347,7 @@ export default function JobDetailPage({ params }: PageProps) {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.6, delay: 0.3 }}
                                 >
-                                    <h2 className="text-2xl text-purple font-semibold">{job.company}</h2>
+                                    <h2 className="text-2xl text-purple-400 font-semibold">{job.company}</h2>
                                     <div className="flex items-center gap-6 text-slate-300">
                                         <div className="flex items-center gap-2">
                                             <Calendar className="w-5 h-5" />
@@ -371,15 +402,15 @@ export default function JobDetailPage({ params }: PageProps) {
                         {job.keyMetrics.map((metric, index) => (
                             <motion.div
                                 key={index}
-                                className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 hover:border-purple/50 transition-all duration-300"
+                                className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 hover:border-purple-500/50 transition-all duration-300"
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: index * 0.1 }}
                                 whileHover={{ y: -5, scale: 1.02 }}
                             >
                                 <div className="flex items-center gap-4 mb-4">
-                                    <div className="p-3 bg-purple/20 rounded-lg border border-purple/30">
-                                        <metric.icon className="w-6 h-6 text-purple" />
+                                    <div className="p-3 bg-purple-500/20 rounded-lg border border-purple-500/30">
+                                        <SafeIcon icon={metric.icon} className="w-6 h-6 text-purple-400" />
                                     </div>
                                     <div>
                                         <div className="text-2xl font-bold text-white">{metric.value}</div>
@@ -406,7 +437,7 @@ export default function JobDetailPage({ params }: PageProps) {
                         {job.keyAchievements.map((achievement, index) => (
                             <motion.div
                                 key={index}
-                                className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 hover:border-purple/30 transition-all duration-300"
+                                className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 hover:border-purple-400/30 transition-all duration-300"
                                 initial={{ opacity: 0, x: -30 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -414,8 +445,8 @@ export default function JobDetailPage({ params }: PageProps) {
                             >
                                 <div className="flex items-start gap-4">
                                     <div className={`p-2 rounded-lg mt-1 ${achievement.impact === 'high'
-                                            ? 'bg-green-500/20 border border-green-500/30'
-                                            : 'bg-blue-500/20 border border-blue-500/30'
+                                        ? 'bg-green-500/20 border border-green-500/30'
+                                        : 'bg-blue-500/20 border border-blue-500/30'
                                         }`}>
                                         <CheckCircle className={`w-5 h-5 ${achievement.impact === 'high' ? 'text-green-400' : 'text-blue-400'
                                             }`} />
@@ -424,8 +455,8 @@ export default function JobDetailPage({ params }: PageProps) {
                                         <h3 className="text-xl font-semibold text-white mb-2">{achievement.title}</h3>
                                         <p className="text-slate-300 leading-relaxed">{achievement.description}</p>
                                         <span className={`inline-block mt-2 px-3 py-1 text-xs font-medium rounded-full ${achievement.impact === 'high'
-                                                ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                                                : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                                            ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                                            : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
                                             }`}>
                                             {achievement.impact.toUpperCase()} IMPACT
                                         </span>
@@ -456,7 +487,7 @@ export default function JobDetailPage({ params }: PageProps) {
                                 transition={{ duration: 0.6, delay: index * 0.2 }}
                             >
                                 <div className="flex items-center gap-3 mb-6">
-                                    <Target className="w-6 h-6 text-purple" />
+                                    <Target className="w-6 h-6 text-purple-400" />
                                     <h3 className="text-xl font-semibold text-white">{category.category}</h3>
                                 </div>
                                 <ul className="space-y-3">
@@ -468,7 +499,7 @@ export default function JobDetailPage({ params }: PageProps) {
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ duration: 0.4, delay: (index * 0.2) + (idx * 0.1) }}
                                         >
-                                            <span className="text-purple mt-1 text-sm">•</span>
+                                            <span className="text-purple-400 mt-1 text-sm">•</span>
                                             <span className="text-sm">{item}</span>
                                         </motion.li>
                                     ))}
@@ -497,7 +528,7 @@ export default function JobDetailPage({ params }: PageProps) {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: index * 0.1 }}
                             >
-                                <h3 className="text-lg font-semibold text-purple mb-4 capitalize">
+                                <h3 className="text-lg font-semibold text-purple-400 mb-4 capitalize">
                                     {category.replace(/([A-Z])/g, ' $1').trim()}
                                 </h3>
                                 <div className="space-y-2">
@@ -531,7 +562,7 @@ export default function JobDetailPage({ params }: PageProps) {
                             {job.projects.map((project, index) => (
                                 <motion.div
                                     key={index}
-                                    className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 hover:border-purple/50 transition-all duration-300"
+                                    className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 hover:border-purple-500/50 transition-all duration-300"
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ duration: 0.6, delay: index * 0.2 }}
@@ -541,12 +572,12 @@ export default function JobDetailPage({ params }: PageProps) {
                                     <p className="text-slate-300 mb-4 leading-relaxed">{project.description}</p>
 
                                     <div className="mb-4">
-                                        <h4 className="text-sm font-medium text-purple mb-2">Technologies:</h4>
+                                        <h4 className="text-sm font-medium text-purple-400 mb-2">Technologies:</h4>
                                         <div className="flex flex-wrap gap-2">
                                             {project.technologies.map((tech, idx) => (
                                                 <span
                                                     key={idx}
-                                                    className="px-2 py-1 text-xs bg-purple/20 text-purple rounded-md border border-purple/30"
+                                                    className="px-2 py-1 text-xs bg-purple-500/20 text-purple-400 rounded-md border border-purple-500/30"
                                                 >
                                                     {tech}
                                                 </span>
@@ -587,7 +618,7 @@ export default function JobDetailPage({ params }: PageProps) {
                                     transition={{ duration: 0.6, delay: index * 0.3 }}
                                 >
                                     <div className="mb-6">
-                                        <div className="text-4xl text-purple mb-4">"</div>
+                                        <div className="text-4xl text-purple-400 mb-4">"</div>
                                         <p className="text-slate-300 leading-relaxed italic">{testimonial.feedback}</p>
                                     </div>
                                     <div className="border-t border-slate-700 pt-4">
@@ -603,7 +634,7 @@ export default function JobDetailPage({ params }: PageProps) {
 
             {/* CTA Section */}
             <motion.section
-                className="py-16 bg-gradient-to-r from-purple/20 to-blue-500/20"
+                className="py-16 bg-gradient-to-r from-purple-500/20 to-blue-500/20"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 1.4 }}
@@ -631,6 +662,7 @@ export default function JobDetailPage({ params }: PageProps) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 1.8 }}
                     >
+
                         <Link href="/#contact">
                             <motion.button
                                 className="px-8 py-3 bg-purple hover:bg-purple/80 text-white rounded-lg font-medium transition-colors duration-200"
