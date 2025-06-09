@@ -38,7 +38,7 @@ const Approach = () => {
           I'll translate everything into functional code, building your website
           from the ground up."
         >
-          
+
         </Card>
       </div>
     </section>
@@ -144,7 +144,7 @@ const AceternityIcon = ({ order }: { order: string }) => {
         </span>
       </button>
     </div>
-  
+
   );
 };
 

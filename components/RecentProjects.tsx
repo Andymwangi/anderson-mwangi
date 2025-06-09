@@ -188,7 +188,7 @@ const enhancedProjects: Project[] = [
     id: 8,
     title: "Resume by Edna - Professional Portfolio",
     des: "A sophisticated portfolio website showcasing professional resume writing, content creation, and LinkedIn optimization services with an elegant, conversion-focused design.",
-    img: "/resumeedna.PNG",
+    img: "/resudna.PNG",
     iconLists: ["/next.svg", "/ts.svg", "/tail.svg"],
     link: "https://resume-by-edna.vercel.app/",
     category: "Website",
@@ -402,8 +402,8 @@ const RecentProjects = () => {
             key={category}
             onClick={() => setActiveCategory(category)}
             className={`px-4 py-2 rounded-full transition-all duration-300 ${activeCategory === category
-                ? "bg-purple text-white"
-                : "bg-opacity-10 bg-gray-300 hover:bg-opacity-20"
+              ? "bg-purple text-white"
+              : "bg-opacity-10 bg-gray-300 hover:bg-opacity-20"
               }`}
           >
             {category}
